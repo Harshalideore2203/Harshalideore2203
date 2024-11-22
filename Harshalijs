@@ -1,34 +1,31 @@
-To access the full name of the country and port when the user enters the first country name and selects from the suggestion list, you can use the following JavaScript code:
+If it's still not selecting "5 weeks," let's try a different approach. Here’s another method that might help:
 
-```
-const searchField = document.querySelector('.ant-input.ant-select-search_field');
+```javascript
+document.addEventListener('DOMContentLoaded', function() {
+    const selectElement = document.querySelector("#inweeks .ant-select");
 
-searchField.addEventListener('input', (e) => {
-  const inputValue = e.target.value;
-  const options = document.querySelectorAll('.ant-select-dropdown-menu-item');
-  options.forEach((option) => {
-    if (option.textContent.toLowerCase().includes(inputValue.toLowerCase())) {
-      option.style.display = 'block';
+    if (selectElement) {
+        selectElement.click(); // Open the dropdown
+
+        setTimeout(() => {
+            const options = document.querySelectorAll("#inweeks .ant-select-item");
+
+            options.forEach(option => {
+                if (option.innerText.includes('5 weeks')) { // Check if the option text includes '5 weeks'
+                    option.click(); // Click the option
+                }
+            });
+        }, 500); // Increased timeout for more loading time
     } else {
-      option.style.display = 'none';
+        console.error('Dropdown element not found.');
     }
-  });
-});
-
-document.querySelectorAll('.ant-select-dropdown-menu-item').forEach((option) => {
-  option.addEventListener('click', (e) => {
-    const selectedValue = e.target.textContent;
-    console.log('Selected Value:', selectedValue);
-    // Add your logic here to handle the selected value
-  });
 });
 ```
 
-In this code:
+In this script:
 
-1. We first add an event listener to the search field to filter the options based on the input value.
-2. Then, we add an event listener to each option to listen for click events.
-3. When an option is clicked, we get the selected value (full country and port name) and log it to the console.
-4. You can add your logic to handle the selected value.
+1. After opening the dropdown, it collects all the options.
+2. It loops through each option and checks if the text includes "5 weeks."
+3. If it finds the correct option, it clicks on it.
 
-Let me know if this helps!
+Give this a try and let me know if it works! If it still doesn't select, we can keep adjusting the approach.
