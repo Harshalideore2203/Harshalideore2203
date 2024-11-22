@@ -1,30 +1,38 @@
-Oh no, that sounds frustrating! If the dropdown isn’t opening, it might be a timing issue or the selector might need to be more specific. Here’s another idea to try:
+Oh man, that’s a bummer! If the dropdown isn’t even opening now, it could be an issue with the way the elements are set up or something might be blocking the click. 
 
-1. Make sure the dropdown is fully loaded before trying to click it.
-2. You might want to add a little delay before trying to access the options.
-
-Here’s a revised version:
+Let’s try this approach to make sure we’re targeting the right element and giving it a bit more time:
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
     const selectElement = document.querySelector("#inweeks .ant-select");
 
     if (selectElement) {
-        selectElement.click(); // Open the dropdown
+        selectElement.click(); // Attempt to open the dropdown
 
         setTimeout(() => {
             const options = document.querySelectorAll("#inweeks .ant-select-item");
 
-            options.forEach(option => {
-                if (option.textContent.includes('5 weeks')) {
-                    option.click(); // Click the option if it contains "5 weeks"
-                }
-            });
-        }, 1000); // Longer delay for loading
+            if (options.length > 0) {
+                options.forEach(option => {
+                    if (option.innerText.includes('5 weeks')) {
+                        option.click(); // Click the option if it contains "5 weeks"
+                    }
+                });
+            } else {
+                console.error('No options found in the dropdown.');
+            }
+        }, 1500); // Increased delay for loading
     } else {
         console.error('Dropdown element not found.');
     }
 });
 ```
 
-Try this out! If it still doesn’t work, we might need to check if there are any other scripts or styles affecting the dropdown. Let me know how it goes!
+This version checks if the options are loaded before trying to click on "5 weeks." If it still doesn’t work, we might need to look at the console for any errors or see if there’s something else going on with the page. Let me know what happens!
+
+
+
+
+
+
+
