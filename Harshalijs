@@ -1,4 +1,9 @@
-If it's still not selecting "5 weeks," let's try a different approach. Here’s another method that might help:
+Oh no, that sounds frustrating! If the dropdown isn’t opening, it might be a timing issue or the selector might need to be more specific. Here’s another idea to try:
+
+1. Make sure the dropdown is fully loaded before trying to click it.
+2. You might want to add a little delay before trying to access the options.
+
+Here’s a revised version:
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,21 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const options = document.querySelectorAll("#inweeks .ant-select-item");
 
             options.forEach(option => {
-                if (option.innerText.includes('5 weeks')) { // Check if the option text includes '5 weeks'
-                    option.click(); // Click the option
+                if (option.textContent.includes('5 weeks')) {
+                    option.click(); // Click the option if it contains "5 weeks"
                 }
             });
-        }, 500); // Increased timeout for more loading time
+        }, 1000); // Longer delay for loading
     } else {
         console.error('Dropdown element not found.');
     }
 });
 ```
 
-In this script:
-
-1. After opening the dropdown, it collects all the options.
-2. It loops through each option and checks if the text includes "5 weeks."
-3. If it finds the correct option, it clicks on it.
-
-Give this a try and let me know if it works! If it still doesn't select, we can keep adjusting the approach.
+Try this out! If it still doesn’t work, we might need to check if there are any other scripts or styles affecting the dropdown. Let me know how it goes!
