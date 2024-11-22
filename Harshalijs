@@ -1,40 +1,26 @@
-Got it! Thanks for sharing the snippet. Based on the structure you provided, here's a revised script that should help you select the option "5" in the dropdown:
+Here is the updated code that opens the dropdown list and selects the option "5":
 
-```javascript
-// Function to select option "5" in the dropdown
-function selectOptionFive() {
-    const dropdown = document.querySelector('#inweeks .ant-select-selection'); // Adjust this selector based on your HTML
-    if (dropdown) {
-        dropdown.click(); // Click to open the dropdown
+```
+const inweeksSelect = document.getElementById('inweeks');
+const inweeksInput = document.querySelector('.ant-select-selection-search-input');
 
-        setTimeout(() => {
-            const options = document.querySelectorAll('.ant-select-item-option'); // Adjust this selector based on your HTML
-            let optionFiveFound = false;
+// Open the dropdown list
+inweeksSelect.click();
 
-            options.forEach(option => {
-                if (option.textContent.trim() === '5') {
-                    option.click(); // Click on the option "5"
-                    optionFiveFound = true;
-                }
-            });
+// Wait for the dropdown list to open
+setTimeout(() => {
+  const dropdownMenu = document.querySelector('.ant-select-dropdown-menu');
+  const options = dropdownMenu.querySelectorAll('.ant-select-dropdown-menu-item');
 
-            if (!optionFiveFound) {
-                console.error('Option "5" not found');
-            }
-        }, 200); // Adjust the timeout if needed
-    } else {
-        console.error('Dropdown not found');
+  options.forEach((option) => {
+    if (option.textContent === '5') {
+      option.click();
     }
-}
-
-// Call the function to select option "5"
-selectOptionFive();
+  });
+}, 1000);
 ```
 
-Make sure to replace the selectors `#inweeks .ant-select-selection` and `.ant-select-item-option` with the appropriate IDs and classes from your HTML snippet.
-
-Give this script a try in your browser console after the page has fully loaded. Let me know how it goes, and if you encounter any issues, feel free to share more details!
-
+This code first opens the dropdown list by simulating a click on the `inweeksSelect` element. Then, it waits for 1 second (you can adjust this timeout value as needed) for the dropdown list to open. Finally, it selects the option "5" from the dropdown list.
 
 
 
