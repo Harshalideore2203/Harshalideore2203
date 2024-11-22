@@ -1,34 +1,37 @@
-Oh man, that’s a bummer! If the dropdown isn’t even opening now, it could be an issue with the way the elements are set up or something might be blocking the click. 
-
-Let’s try this approach to make sure we’re targeting the right element and giving it a bit more time:
+To open the dropdown and select the option with the value "5" using JavaScript, you can follow these steps. Here's a sample code snippet that you can use:
 
 ```javascript
-document.addEventListener('DOMContentLoaded', function() {
-    const selectElement = document.querySelector("#inweeks .ant-select");
+// Function to open the dropdown and select option 5
+function selectOptionFive() {
+    // Open the dropdown
+    const dropdown = document.querySelector('#inweeks .ant-select-selection');
+    dropdown.click(); // Simulate a click to open the dropdown
 
-    if (selectElement) {
-        selectElement.click(); // Attempt to open the dropdown
+    // Wait for the dropdown options to appear
+    setTimeout(() => {
+        // Find the option with the value "5"
+        const optionFive = Array.from(document.querySelectorAll('.ant-select-item'))
+            .find(option => option.textContent.trim() === '5');
 
-        setTimeout(() => {
-            const options = document.querySelectorAll("#inweeks .ant-select-item");
+        if (optionFive) {
+            // Click on the option to select it
+            optionFive.click();
+        } else {
+            console.error('Option 5 not found');
+        }
+    }, 100); // Adjust the timeout if necessary
+}
 
-            if (options.length > 0) {
-                options.forEach(option => {
-                    if (option.innerText.includes('5 weeks')) {
-                        option.click(); // Click the option if it contains "5 weeks"
-                    }
-                });
-            } else {
-                console.error('No options found in the dropdown.');
-            }
-        }, 1500); // Increased delay for loading
-    } else {
-        console.error('Dropdown element not found.');
-    }
-});
+// Call the function
+selectOptionFive();
 ```
 
-This version checks if the options are loaded before trying to click on "5 weeks." If it still doesn’t work, we might need to look at the console for any errors or see if there’s something else going on with the page. Let me know what happens!
+This script will:
+1. Simulate a click on the dropdown to open it.
+2. Wait for a short period to allow the options to load.
+3. Search for the option with the text "5" and click it.
+
+Make sure to run this code in the context where the dropdown is available, such as in the browser console after the page has loaded.
 
 
 
