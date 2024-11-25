@@ -1,8 +1,8 @@
-To extract data only for the vessel "IONIKOS", you can modify the JavaScript code as follows:
+Here's the updated code with the correct port name:
 
 ```
 // Define variables
-var vesselName = "IONIKOS";
+var portName = "ABIDJAN";
 var AllTableElements = document.querySelectorAll("tbody tr");
 var InternalVoyage = "";
 var FetchedETA = "";
@@ -25,10 +25,10 @@ var ETAvalminus5 = new Date(ETA.getTime() - 864e5 * 5);
 
 // Loop through table elements
 AllTableElements.forEach((element, index) => {
-  var vesselElement = element.querySelector("label[for='Vessel']");
-  if (vesselElement && vesselElement.innerText.toLowerCase().includes(vesselName.toLowerCase())) {
+  var portElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(1) > div > label.rowLabel");
+  if (portElement && portElement.innerText === portName) {
     // Extract ETA Date
-    var ETACheckDateElement = element.querySelector("label[for='Arrival Date']");
+    var ETACheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(6) > div > label.rowLabel");
     if (ETACheckDateElement) {
       var ETACheckDate = new Date(ETACheckDateElement.innerText);
       // Check if ETA date matches or falls within date range
@@ -57,12 +57,12 @@ AllTableElements.forEach((element, index) => {
 
 // Function to find LVR
 function findLVR(element) {
-  var FetchedETAElement = element.querySelector("label[for='Arrival Date']");
-  var FetchedETDElement = element.querySelector("label[for='Departure Date']");
+  var FetchedETAElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(6) > div > label.rowLabel");
+  var FetchedETDElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(7) > div > label.rowLabel");
   if (FetchedETAElement && FetchedETDElement) {
     FetchedETA = FetchedETAElement.innerText;
     FetchedETD = FetchedETDElement.innerText;
-    var InternalVoyageElement = element.querySelector("label[for='Voyage']");
+    var InternalVoyageElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(4) > div > label.rowLabel.general.LinkLabel");
     if (InternalVoyageElement) {
       InternalVoyage = InternalVoyageElement.innerText;
       console.log(InternalVoyage);
@@ -72,9 +72,9 @@ function findLVR(element) {
 
 // Final loop and output
 AllTableElements.forEach((element) => {
-  var voyageElement = element.querySelector("label[for='Voyage']");
+  var voyageElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(4) > div > label.rowLabel.general.LinkLabel");
   if (voyageElement && voyageElement.innerText == InternalVoyage) {
-    var importLVR = element.querySelector("label[for='Vessel']");
+    var importLVR = element.querySelector("div.mobileDivView > div.ant-row:nth-child(2) > div > label.rowLabel.general.LinkLabel");
     if (importLVR) {
       ImportLVR = importLVR.innerText;
       OutputVar = ImportLVR + ":" + FetchedETA + ":" + FetchedETD;
@@ -83,5 +83,3 @@ AllTableElements.forEach((element) => {
   }
 });
 ```
-
-This modified code will extract data only for the vessel "IONIKOS".
