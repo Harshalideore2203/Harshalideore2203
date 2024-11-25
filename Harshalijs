@@ -1,8 +1,8 @@
-It seems that the code is not able to find the ETA element. Here's a modified version of the code that adds some error checking:
+In that case, you can update the `portName` variable to match the combined port-terminal name. Here's the updated code:
 
 ```
 // Define variables
-var portName = "ABIDJAN";
+var portName = "ABIDJAN - ABIDJAN TERMINAL";
 var AllTableElements = document.querySelectorAll("tbody tr");
 
 // Loop through table elements
@@ -10,7 +10,7 @@ AllTableElements.forEach((element, index) => {
   var portElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(1) > div > label.rowLabel");
   if (portElement) {
     console.log("Port element found");
-    if (portElement.innerText === portName) {
+    if (portElement.innerText.trim() === portName.trim()) {
       console.log("Port name matches");
       var ETACheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(6) > div > label.rowLabel");
       if (ETACheckDateElement) {
@@ -29,4 +29,4 @@ AllTableElements.forEach((element, index) => {
 });
 ```
 
-This code will log messages to the console indicating whether the port element, port name, and ETA element are found. This should help you diagnose the issue.
+This code should now correctly match the combined port-terminal name "ABIDJAN - ABIDJAN TERMINAL".
