@@ -57,6 +57,8 @@ if (status == 0) {
       console.log('Arrival Date: ' + ETAval);
       console.log('Departure Date: ' + ele.getElementsByClassName('rowLabel')[5].innerText);
       break;
+
+
     } else if ((ETAvaldate <= ETAvalplus3 && ETAvaldate >= ETAvalminus3) && vesselLVR.includes(VesselName)) {
       console.log('Vessel Name: ' + vesselLVR);
       console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[3].innerText);
@@ -68,4 +70,18 @@ if (status == 0) {
       console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[3].innerText);
       console.log('Arrival Date: ' + ETAval);
       console.log('Departure Date: ' + ele.getElementsByClassName
-```
+Here is the rest of the code:
+
+} else if ((ETAvaldate <= ETAvalplus5 && ETAvaldate >= ETAvalminus5) && vesselLVR.includes(VesselName)) {
+console.log('Vessel Name: ' + vesselLVR);
+console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[2].innerText);
+console.log('Arrival Date: ' + ETAval);
+console.log('Departure Date: ' + ele.getElementsByClassName('rowLabel')[4].innerText);
+break;
+}
+}
+}
+
+if (status == 0) {
+console.log("No matching vessel found");
+}
