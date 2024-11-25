@@ -1,27 +1,18 @@
-Based on the provided HTML content, I found that the static classes for the ETA element are:
+Here is the revised JavaScript code snippet that uses static classes to target the ETA element:
 
-.ant-table-row
-.mobileDivView
-.ant-row
-.rowLabel
-
-Here's an updated JavaScript code snippet to extract the ETA:
-
-```
 var portName = "ABIDJAN - ABIDJAN TERMINAL";
 var AllTableElements = document.querySelectorAll(".ant-table-row");
 
 AllTableElements.forEach((element, index) => {
-  var portElement = element.querySelector(".mobileDivView .ant-row .rowLabel");
-  if (portElement) {
-    if (portElement.innerText.trim() === portName.trim()) {
-      var ETACheckDateElement = element.querySelectorAll(".mobileDivView .ant-row")[7].querySelector(".rowLabel");
-      if (ETACheckDateElement) {
-        console.log("ETA element found");
-        var ETACheckDate = ETACheckDateElement.innerText;
-        console.log("ETA:", ETACheckDate);
-      }
-    }
-  }
+var portElement = element.querySelector(".mobileDivView .ant-row:first-child .rowLabel");
+if (portElement) {
+if (portElement.innerText.trim() === portName.trim()) {
+var ETAElement = element.querySelector(".mobileDivView .ant-row .headerLabel:contains(Arrival Date) + .rowLabel");
+if (ETAElement) {
+console.log("ETA element found");
+var ETA = ETAElement.innerText;
+console.log("ETA:", ETA);
+}
+}
+}
 });
-```
