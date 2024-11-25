@@ -1,6 +1,5 @@
-Now that you've extracted the ETA, the next step would be to extract the ETD (Estimated Time of Departure) and the Voyage/Vessel information.
+Here is the JavaScript code to extract the ETA (Estimated Time of Arrival):
 
-Here's an updated code snippet that extracts the ETA, ETD, and Voyage/Vessel information:
 ```
 // Define variables
 var portName = "ABIDJAN - ABIDJAN TERMINAL";
@@ -13,29 +12,13 @@ AllTableElements.forEach((element, index) => {
     console.log("Port element found");
     if (portElement.innerText.trim() === portName.trim()) {
       console.log("Port name matches");
-      var ETACheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(6) > div > label.rowLabel");
-      var ETDCheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(7) > div > label.rowLabel");
-      var VoyageVesselElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(4) > div > label.rowLabel.general.LinkLabel");
-
+      var ETACheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(8) > div > label.rowLabel");
       if (ETACheckDateElement) {
         console.log("ETA element found");
         var ETACheckDate = ETACheckDateElement.innerText;
         console.log("ETA:", ETACheckDate);
       }
-
-      if (ETDCheckDateElement) {
-        console.log("ETD element found");
-        var ETDCheckDate = ETDCheckDateElement.innerText;
-        console.log("ETD:", ETDCheckDate);
-      }
-
-      if (VoyageVesselElement) {
-        console.log("Voyage/Vessel element found");
-        var VoyageVessel = VoyageVesselElement.innerText;
-        console.log("Voyage/Vessel:", VoyageVessel);
-      }
     }
   }
 });
 ```
-This code extracts the ETA, ETD, and Voyage/Vessel information and logs them to the console.
