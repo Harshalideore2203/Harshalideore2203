@@ -1,24 +1,22 @@
-Here is the JavaScript code to extract the ETA (Estimated Time of Arrival):
+Here is the updated code with static class names:
 
-```
 // Define variables
 var portName = "ABIDJAN - ABIDJAN TERMINAL";
 var AllTableElements = document.querySelectorAll("tbody tr");
 
 // Loop through table elements
 AllTableElements.forEach((element, index) => {
-  var portElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(1) > div > label.rowLabel");
-  if (portElement) {
-    console.log("Port element found");
-    if (portElement.innerText.trim() === portName.trim()) {
-      console.log("Port name matches");
-      var ETACheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(8) > div > label.rowLabel");
-      if (ETACheckDateElement) {
-        console.log("ETA element found");
-        var ETACheckDate = ETACheckDateElement.innerText;
-        console.log("ETA:", ETACheckDate);
-      }
-    }
-  }
+var portElement = element.querySelector(".ant-row .headerLabel + .rowLabel");
+if (portElement) {
+console.log("Port element found");
+if (portElement.innerText.trim() === portName.trim()) {
+console.log("Port name matches");
+var ArrivalDateElement = element.querySelectorAll(".ant-row")[7].querySelector(".rowLabel");
+if (ArrivalDateElement) {
+console.log("ETA element found");
+var ETACheckDate = ArrivalDateElement.innerText;
+console.log("ETA:", ETACheckDate);
+}
+}
+}
 });
-```
