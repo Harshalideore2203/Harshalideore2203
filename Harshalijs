@@ -1,35 +1,51 @@
-To extract the ETA from the provided HTML structure using JavaScript, you can use the following code snippet. This code assumes that the ETA information is located within a specific label or structure you have in your HTML. Since the provided HTML does not explicitly show where the ETA is, I'll show you how to extract the relevant information based on the structure you provided. 
-
-Here's an example of how you might write the JavaScript code:
+Got it! Based on the HTML structure you provided, here's how you can modify the JavaScript code to work with the new website's HTML structure. I’ll keep the logic similar to what you had for the previous example while focusing on the new class names and structure.
 
 ```javascript
-// Select all rows in the table body
-const rows = document.querySelectorAll('.ant-table-tbody .ant-table-row');
+var AllTableElements = document.getElementsByClassName("ant-table-row");
 
-// Loop through each row to find the ETA
-rows.forEach(row => {
-  // Find the port terminal label
-  const portTerminalElement = row.querySelector('.ant-row .rowLabel');
-  const vesselElement = row.querySelector('.ant-row .rowLabel.general.LinkLabel');
+var InternalVoyage = "";
 
-  // Check if the elements exist
-  if (portTerminalElement && vesselElement) {
-    const portTerminal = portTerminalElement.innerText;
-    const vessel = vesselElement.innerText;
+var FetchedETA = "";
 
-    // Assuming ETA is in a specific format or location, you would need to adjust this
-    // Here, just for demonstration, let's log the port and vessel
-    console.log(`Port Terminal: ${portTerminal}, Vessel: ${vessel}`);
-    
-    // If there is a specific ETA label, you can extract it similarly
-    // For example, if the ETA is in another row, you would add that logic here
-  }
-});
+var FetchedETD = "";
+
+var ImportLVR = "";
+
+var OutputVar = "";
+
+var ETA = new Date(#SETA#);
+
+var ETAvalplus1 = new Date(ETA.getTime() + 864e5 * 1);
+var ETAvalminus1 = new Date(ETA.getTime() - 864e5 * 1);
+
+var ETAvalplus2 = new Date(ETA.getTime() + 864e5 * 2);
+var ETAvalminus2 = new Date(ETA.getTime() - 864e5 * 2);
+
+var ETAvalplus3 = new Date(ETA.getTime() + 864e5 * 3);
+var ETAvalminus3 = new Date(ETA.getTime() - 864e5 * 3);
+
+var ETAvalplus4 = new Date(ETA.getTime() + 864e5 * 4);
+var ETAvalminus4 = new Date(ETA.getTime() - 864e5 * 4);
+
+var ETAvalplus5 = new Date(ETA.getTime() + 864e5 * 5);
+var ETAvalminus5 = new Date(ETA.getTime() - 864e5 * 5);
+
+for (var i = 0; i < AllTableElements.length; i++) {
+    var portLabel = AllTableElements[i].getElementsByClassName("rowLabel")[0].innerText;
+    if (portLabel.toLowerCase().includes((#$PortName#$).toLowerCase())) {
+        var ETACheckDate = new Date(AllTableElements[i + 2].getElementsByClassName("rowLabel")[0].innerText);
+
+        if (ETACheckDate.getTime() === ETA.getTime()) {
+            console.log("ETACheckDate = ETA");
+            findLVR();
+        }
+    }
+}
 ```
 
-### Explanation:
-- The code selects all rows in the table body using the class names provided.
-- It iterates through each row to find the relevant labels for the port terminal and vessel.
-- The `console.log` statement outputs the port terminal and vessel names. You would need to adjust this to extract the actual ETA based on where it appears in your HTML.
+In this code:
+1. I changed the class name to "ant-table-row" to match the new structure.
+2. I accessed the inner text of the elements using `getElementsByClassName` to find the port and vessel labels.
+3. The date extraction is done from the appropriate row, assuming the ETA is two rows down.
 
-If you have more specific details about where the ETA is located in the HTML structure, please provide that, and I can help refine the code further!
+Make sure to adjust the logic if the structure changes or if the ETA is located differently in the HTML. Let me know if you need any more tweaks or explanations!
