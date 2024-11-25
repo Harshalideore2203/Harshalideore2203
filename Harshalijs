@@ -1,12 +1,17 @@
-Here is the revised JavaScript code that matches the reference code you provided:
+To extract data only for the vessel "IONIKOS", you can modify the JavaScript code as follows:
 
 ```
+// Define variables
+var vesselName = "IONIKOS";
+var AllTableElements = document.querySelectorAll("tbody tr");
 var InternalVoyage = "";
 var FetchedETA = "";
 var FetchedETD = "";
+var ImportLVR = "";
 var OutputVar = "";
 var ETA = new Date("2024-11-25");
 
+// Calculate date ranges
 var ETAvalplus1 = new Date(ETA.getTime() + 864e5 * 1);
 var ETAvalminus1 = new Date(ETA.getTime() - 864e5 * 1);
 var ETAvalplus2 = new Date(ETA.getTime() + 864e5 * 2);
@@ -18,62 +23,65 @@ var ETAvalminus4 = new Date(ETA.getTime() - 864e5 * 4);
 var ETAvalplus5 = new Date(ETA.getTime() + 864e5 * 5);
 var ETAvalminus5 = new Date(ETA.getTime() - 864e5 * 5);
 
-var allTableElements = document.getElementsByTagName("td");
+// Loop through table elements
+AllTableElements.forEach((element, index) => {
+  var vesselElement = element.querySelector("label[for='Vessel']");
+  if (vesselElement && vesselElement.innerText.toLowerCase().includes(vesselName.toLowerCase())) {
+    // Extract ETA Date
+    var ETACheckDateElement = element.querySelector("label[for='Arrival Date']");
+    if (ETACheckDateElement) {
+      var ETACheckDate = new Date(ETACheckDateElement.innerText);
+      // Check if ETA date matches or falls within date range
+      if (ETACheckDate == ETA) {
+        console.log("ETACheckDate = ETA");
+        findLVR(element);
+      } else if (ETACheckDate <= ETAvalplus1 && ETACheckDate >= ETAvalminus1) {
+        console.log("Within 1 days");
+        findLVR(element);
+      } else if (ETACheckDate <= ETAvalplus2 && ETACheckDate >= ETAvalminus2) {
+        console.log("Within 2 days");
+        findLVR(element);
+      } else if (ETACheckDate <= ETAvalplus3 && ETACheckDate >= ETAvalminus3) {
+        console.log("Within 3 days");
+        findLVR(element);
+      } else if (ETACheckDate <= ETAvalplus4 && ETACheckDate >= ETAvalminus4) {
+        console.log("Within 4 days");
+        findLVR(element);
+      } else if (ETACheckDate <= ETAvalplus5 && ETACheckDate >= ETAvalminus5) {
+        console.log("Within 5 days");
+        findLVR(element);
+      }
+    }
+  }
+});
 
-for (var i = 0; i < allTableElements.length; i += 6) {
-  var portTerminal = allTableElements[i].textContent;
-  var vessel = allTableElements[i + 1].textContent;
-  var service = allTableElements[i + 2].textContent;
-  var voyage = allTableElements[i + 3].textContent;
-  var arrivalDate = allTableElements[i + 4].textContent;
-  var departureDate = allTableElements[i + 5].textContent;
-
-  var ETACheckDate = new Date(arrivalDate);
-
-  if (portTerminal.includes("ABIDJAN ABIDJAN TERMINAL") && ETACheckDate.getTime() === ETA.getTime()) {
-    InternalVoyage = voyage;
-    FetchedETA = arrivalDate;
-    FetchedETD = departureDate;
-    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-    console.log(OutputVar);
-    break;
-  } else if (ETACheckDate <= ETAvalplus1 && ETACheckDate >= ETAvalminus1) {
-    InternalVoyage = voyage;
-    FetchedETA = arrivalDate;
-    FetchedETD = departureDate;
-    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-    console.log(OutputVar);
-    break;
-  } else if (ETACheckDate <= ETAvalplus2 && ETACheckDate >= ETAvalminus2) {
-    InternalVoyage = voyage;
-    FetchedETA = arrivalDate;
-    FetchedETD = departureDate;
-    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-    console.log(OutputVar);
-    break;
-  } else if (ETACheckDate <= ETAvalplus3 && ETACheckDate >= ETAvalminus3) {
-    InternalVoyage = voyage;
-    FetchedETA = arrivalDate;
-    FetchedETD = departureDate;
-    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-    console.log(OutputVar);
-    break;
-  } else if (ETACheckDate <= ETAvalplus4 && ETACheckDate >= ETAvalminus4) {
-    InternalVoyage = voyage;
-    FetchedETA = arrivalDate;
-    FetchedETD = departureDate;
-    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-    console.log(OutputVar);
-    break;
-  } else if (ETACheckDate <= ETAvalplus5 && ETACheckDate >= ETAvalminus5) {
-    InternalVoyage = voyage;
-    FetchedETA = arrivalDate;
-    FetchedETD = departureDate;
-    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-    console.log(OutputVar);
-    break;
+// Function to find LVR
+function findLVR(element) {
+  var FetchedETAElement = element.querySelector("label[for='Arrival Date']");
+  var FetchedETDElement = element.querySelector("label[for='Departure Date']");
+  if (FetchedETAElement && FetchedETDElement) {
+    FetchedETA = FetchedETAElement.innerText;
+    FetchedETD = FetchedETDElement.innerText;
+    var InternalVoyageElement = element.querySelector("label[for='Voyage']");
+    if (InternalVoyageElement) {
+      InternalVoyage = InternalVoyageElement.innerText;
+      console.log(InternalVoyage);
+    }
   }
 }
+
+// Final loop and output
+AllTableElements.forEach((element) => {
+  var voyageElement = element.querySelector("label[for='Voyage']");
+  if (voyageElement && voyageElement.innerText == InternalVoyage) {
+    var importLVR = element.querySelector("label[for='Vessel']");
+    if (importLVR) {
+      ImportLVR = importLVR.innerText;
+      OutputVar = ImportLVR + ":" + FetchedETA + ":" + FetchedETD;
+      console.log(OutputVar);
+    }
+  }
+});
 ```
 
-I hope this revised code meets your requirements. Let me know if you need further modifications.
+This modified code will extract data only for the vessel "IONIKOS".
