@@ -1,85 +1,32 @@
-Here's the updated code with the correct port name:
+It seems that the code is not able to find the ETA element. Here's a modified version of the code that adds some error checking:
 
 ```
 // Define variables
 var portName = "ABIDJAN";
 var AllTableElements = document.querySelectorAll("tbody tr");
-var InternalVoyage = "";
-var FetchedETA = "";
-var FetchedETD = "";
-var ImportLVR = "";
-var OutputVar = "";
-var ETA = new Date("2024-11-25");
-
-// Calculate date ranges
-var ETAvalplus1 = new Date(ETA.getTime() + 864e5 * 1);
-var ETAvalminus1 = new Date(ETA.getTime() - 864e5 * 1);
-var ETAvalplus2 = new Date(ETA.getTime() + 864e5 * 2);
-var ETAvalminus2 = new Date(ETA.getTime() - 864e5 * 2);
-var ETAvalplus3 = new Date(ETA.getTime() + 864e5 * 3);
-var ETAvalminus3 = new Date(ETA.getTime() - 864e5 * 3);
-var ETAvalplus4 = new Date(ETA.getTime() + 864e5 * 4);
-var ETAvalminus4 = new Date(ETA.getTime() - 864e5 * 4);
-var ETAvalplus5 = new Date(ETA.getTime() + 864e5 * 5);
-var ETAvalminus5 = new Date(ETA.getTime() - 864e5 * 5);
 
 // Loop through table elements
 AllTableElements.forEach((element, index) => {
   var portElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(1) > div > label.rowLabel");
-  if (portElement && portElement.innerText === portName) {
-    // Extract ETA Date
-    var ETACheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(6) > div > label.rowLabel");
-    if (ETACheckDateElement) {
-      var ETACheckDate = new Date(ETACheckDateElement.innerText);
-      // Check if ETA date matches or falls within date range
-      if (ETACheckDate == ETA) {
-        console.log("ETACheckDate = ETA");
-        findLVR(element);
-      } else if (ETACheckDate <= ETAvalplus1 && ETACheckDate >= ETAvalminus1) {
-        console.log("Within 1 days");
-        findLVR(element);
-      } else if (ETACheckDate <= ETAvalplus2 && ETACheckDate >= ETAvalminus2) {
-        console.log("Within 2 days");
-        findLVR(element);
-      } else if (ETACheckDate <= ETAvalplus3 && ETACheckDate >= ETAvalminus3) {
-        console.log("Within 3 days");
-        findLVR(element);
-      } else if (ETACheckDate <= ETAvalplus4 && ETACheckDate >= ETAvalminus4) {
-        console.log("Within 4 days");
-        findLVR(element);
-      } else if (ETACheckDate <= ETAvalplus5 && ETACheckDate >= ETAvalminus5) {
-        console.log("Within 5 days");
-        findLVR(element);
+  if (portElement) {
+    console.log("Port element found");
+    if (portElement.innerText === portName) {
+      console.log("Port name matches");
+      var ETACheckDateElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(6) > div > label.rowLabel");
+      if (ETACheckDateElement) {
+        console.log("ETA element found");
+        var ETACheckDate = ETACheckDateElement.innerText;
+        console.log("ETA:", ETACheckDate);
+      } else {
+        console.log("ETA element not found");
       }
+    } else {
+      console.log("Port name does not match");
     }
-  }
-});
-
-// Function to find LVR
-function findLVR(element) {
-  var FetchedETAElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(6) > div > label.rowLabel");
-  var FetchedETDElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(7) > div > label.rowLabel");
-  if (FetchedETAElement && FetchedETDElement) {
-    FetchedETA = FetchedETAElement.innerText;
-    FetchedETD = FetchedETDElement.innerText;
-    var InternalVoyageElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(4) > div > label.rowLabel.general.LinkLabel");
-    if (InternalVoyageElement) {
-      InternalVoyage = InternalVoyageElement.innerText;
-      console.log(InternalVoyage);
-    }
-  }
-}
-
-// Final loop and output
-AllTableElements.forEach((element) => {
-  var voyageElement = element.querySelector("div.mobileDivView > div.ant-row:nth-child(4) > div > label.rowLabel.general.LinkLabel");
-  if (voyageElement && voyageElement.innerText == InternalVoyage) {
-    var importLVR = element.querySelector("div.mobileDivView > div.ant-row:nth-child(2) > div > label.rowLabel.general.LinkLabel");
-    if (importLVR) {
-      ImportLVR = importLVR.innerText;
-      OutputVar = ImportLVR + ":" + FetchedETA + ":" + FetchedETD;
-      console.log(OutputVar);
-    }
+  } else {
+    console.log("Port element not found");
   }
 });
 ```
+
+This code will log messages to the console indicating whether the port element, port name, and ETA element are found. This should help you diagnose the issue.
