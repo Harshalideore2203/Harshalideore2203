@@ -1,18 +1,35 @@
-Here is the revised JavaScript code snippet that uses static classes to target the ETA element:
+To extract the ETA from the provided HTML structure using JavaScript, you can use the following code snippet. This code assumes that the ETA information is located within a specific label or structure you have in your HTML. Since the provided HTML does not explicitly show where the ETA is, I'll show you how to extract the relevant information based on the structure you provided. 
 
-var portName = "ABIDJAN - ABIDJAN TERMINAL";
-var AllTableElements = document.querySelectorAll(".ant-table-row");
+Here's an example of how you might write the JavaScript code:
 
-AllTableElements.forEach((element, index) => {
-var portElement = element.querySelector(".mobileDivView .ant-row:first-child .rowLabel");
-if (portElement) {
-if (portElement.innerText.trim() === portName.trim()) {
-var ETAElement = element.querySelector(".mobileDivView .ant-row .headerLabel:contains(Arrival Date) + .rowLabel");
-if (ETAElement) {
-console.log("ETA element found");
-var ETA = ETAElement.innerText;
-console.log("ETA:", ETA);
-}
-}
-}
+```javascript
+// Select all rows in the table body
+const rows = document.querySelectorAll('.ant-table-tbody .ant-table-row');
+
+// Loop through each row to find the ETA
+rows.forEach(row => {
+  // Find the port terminal label
+  const portTerminalElement = row.querySelector('.ant-row .rowLabel');
+  const vesselElement = row.querySelector('.ant-row .rowLabel.general.LinkLabel');
+
+  // Check if the elements exist
+  if (portTerminalElement && vesselElement) {
+    const portTerminal = portTerminalElement.innerText;
+    const vessel = vesselElement.innerText;
+
+    // Assuming ETA is in a specific format or location, you would need to adjust this
+    // Here, just for demonstration, let's log the port and vessel
+    console.log(`Port Terminal: ${portTerminal}, Vessel: ${vessel}`);
+    
+    // If there is a specific ETA label, you can extract it similarly
+    // For example, if the ETA is in another row, you would add that logic here
+  }
 });
+```
+
+### Explanation:
+- The code selects all rows in the table body using the class names provided.
+- It iterates through each row to find the relevant labels for the port terminal and vessel.
+- The `console.log` statement outputs the port terminal and vessel names. You would need to adjust this to extract the actual ETA based on where it appears in your HTML.
+
+If you have more specific details about where the ETA is located in the HTML structure, please provide that, and I can help refine the code further!
