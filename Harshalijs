@@ -1,22 +1,68 @@
-It seems like you're trying to automate a selection change in an Ant Design select component.
-
-To achieve this, you can try the following code:
-
-```
-const selectElement = document.querySelector('.ant-select-selector');
-
-if (selectElement) {
-  const ulElement = selectElement.parentNode.querySelector('ul.ant-select-dropdown-menu');
-  const liElements = ulElement.querySelectorAll('li.ant-select-dropdown-menu-item');
-
-  liElements.forEach((liElement, index) => {
-    if (index === 4) { // Select the 5th option (index 4)
-      liElement.click();
-    }
-  });
-} else {
-  console.log("Select element not found");
-}
-```
-
-This code finds the Ant Design select component, then finds the `ul` element containing the options. It then finds all `li` elements representing the options and simulates a click on the 5th option (index 4).
+(@"var len = document.getElementsByClassName('fixed-table__data-table generic-table__table')[0].getElementsByTagName('tbody').length
+var status = 0;
+for(k=0;k<len;k++)
+        {
+        var ele = document.getElementsByClassName('fixed-table__data-table generic-table__table')[0].getElementsByTagName('tbody')[k].getElementsByTagName('tr')[0];
+        var ETAval = ele.getElementsByTagName('td')[3].innerText.replace('\n',' ');
+        var ETAvaldate = new Date(ETAval);
+        var vesselLVR = ele.getElementsByTagName('td')[0].innerText;
+        var etadate = new Date('" + ETA + @"');
+            if((ETAvaldate.toISOString() === etadate.toISOString()) && vesselLVR.includes('" + VesselName + @"'))
+            {
+                vesselLVR = vesselLVR.replace('" + VesselName + @"','')
+                return vesselLVR;
+                status = 1;
+                break;
+            }   
+        }
+if(status == 0)
+{
+    for(var i=0; i<len;i++)
+        {
+            var ele = document.getElementsByClassName('fixed-table__data-table generic-table__table')[0].getElementsByTagName('tbody')[i].getElementsByTagName('tr')[0];
+            var ETAval = ele.getElementsByTagName('td')[3].innerText.replace('\n',' ');
+            var ETAvaldate = new Date(ETAval);
+            var etadate = new Date('" + ETA + @"');
+            var ETAvalplus1 = new Date( etadate/1 + 864e5*1);
+            var ETAvalminus1 = new Date(etadate/1 - 864e5*1);
+            var ETAvalplus2 = new Date( etadate/1 + 864e5*2);
+            var ETAvalminus2 = new Date(etadate/1 - 864e5*2);
+            var ETAvalplus3 = new Date( etadate/1 + 864e5*3);
+            var ETAvalminus3 = new Date(etadate/1 - 864e5*3);
+            var ETAvalplus4 = new Date( etadate/1 + 864e5*4);
+            var ETAvalminus4 = new Date(etadate/1 - 864e5*4);
+            var ETAvalplus5 = new Date( etadate/1 + 864e5*5);
+            var ETAvalminus5 = new Date(etadate/1 - 864e5*5);
+            var vesselLVR = ele.getElementsByTagName('td')[0].innerText;
+            if((ETAvaldate <= ETAvalplus1 && ETAvaldate >= ETAvalminus1) && vesselLVR.includes('" + VesselName + @"'))
+            {
+                vesselLVR = vesselLVR.replace('" + VesselName + @"','')
+                return vesselLVR;
+                break;
+            }
+            else if((ETAvaldate <= ETAvalplus2 && ETAvaldate >= ETAvalminus2) && vesselLVR.includes('" + VesselName + @"'))
+                {
+                    vesselLVR = vesselLVR.replace('" + VesselName + @"','')
+                    return vesselLVR;
+                    break;
+                }
+             else if((ETAvaldate <= ETAvalplus3 && ETAvaldate >= ETAvalminus3) && vesselLVR.includes('" + VesselName + @"'))
+                {
+                    vesselLVR = vesselLVR.replace('" + VesselName + @"','')
+                    return vesselLVR;
+                    break;
+                }
+            else if((ETAvaldate <= ETAvalplus4 && ETAvaldate >= ETAvalminus4) && vesselLVR.includes('" + VesselName + @"'))
+                {
+                    vesselLVR = vesselLVR.replace('" + VesselName + @"','')
+                    return vesselLVR;
+                    break;
+                }
+            else if((ETAvaldate <= ETAvalplus5 && ETAvaldate >= ETAvalminus5) && vesselLVR.includes('" + VesselName + @"'))
+                {
+                    vesselLVR = vesselLVR.replace('" + VesselName + @"','')
+                    return vesselLVR;
+                    break;
+                }
+        }
+}");
