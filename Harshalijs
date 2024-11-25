@@ -1,11 +1,11 @@
-Here's the complete code:
+Here is the revised JavaScript code that matches the reference code you provided:
 
 ```
 var InternalVoyage = "";
 var FetchedETA = "";
 var FetchedETD = "";
 var OutputVar = "";
-var ETA = new Date("2024-11-25"); // Assign your desired date here
+var ETA = new Date("2024-11-25");
 
 var ETAvalplus1 = new Date(ETA.getTime() + 864e5 * 1);
 var ETAvalminus1 = new Date(ETA.getTime() - 864e5 * 1);
@@ -18,64 +18,62 @@ var ETAvalminus4 = new Date(ETA.getTime() - 864e5 * 4);
 var ETAvalplus5 = new Date(ETA.getTime() + 864e5 * 5);
 var ETAvalminus5 = new Date(ETA.getTime() - 864e5 * 5);
 
-var tableBody = document.getElementsByClassName("ant-table-tbody")[0];
+var allTableElements = document.getElementsByTagName("td");
 
-for (var i = 0; i < tableBody.childNodes.length; i++) {
-  var tableRow = tableBody.childNodes[i];
+for (var i = 0; i < allTableElements.length; i += 6) {
+  var portTerminal = allTableElements[i].textContent;
+  var vessel = allTableElements[i + 1].textContent;
+  var service = allTableElements[i + 2].textContent;
+  var voyage = allTableElements[i + 3].textContent;
+  var arrivalDate = allTableElements[i + 4].textContent;
+  var departureDate = allTableElements[i + 5].textContent;
 
-  if (tableRow.nodeName === "TR") {
-    var portTerminal = tableRow.getElementsByClassName("rowLabel")[0].textContent;
-    var vessel = tableRow.getElementsByClassName("rowLabel")[1].textContent;
-    var service = tableRow.getElementsByClassName("rowLabel")[2].textContent;
-    var voyage = tableRow.getElementsByClassName("rowLabel")[3].textContent;
-    var arrivalDate = tableRow.getElementsByClassName("rowLabel")[4].textContent;
-    var departureDate = tableRow.getElementsByClassName("rowLabel")[5].textContent;
+  var ETACheckDate = new Date(arrivalDate);
 
-    var ETACheckDate = new Date(arrivalDate);
-
-    if (portTerminal.includes("ABC") && ETACheckDate.getTime() === ETA.getTime()) {
-      InternalVoyage = voyage;
-      FetchedETA = arrivalDate;
-      FetchedETD = departureDate;
-      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-      console.log(OutputVar);
-      break;
-    } else if (ETACheckDate <= ETAvalplus1 && ETACheckDate >= ETAvalminus1) {
-      InternalVoyage = voyage;
-      FetchedETA = arrivalDate;
-      FetchedETD = departureDate;
-      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-      console.log(OutputVar);
-      break;
-    } else if (ETACheckDate <= ETAvalplus2 && ETACheckDate >= ETAvalminus2) {
-      InternalVoyage = voyage;
-      FetchedETA = arrivalDate;
-      FetchedETD = departureDate;
-      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-      console.log(OutputVar);
-      break;
-    } else if (ETACheckDate <= ETAvalplus3 && ETACheckDate >= ETAvalminus3) {
-      InternalVoyage = voyage;
-      FetchedETA = arrivalDate;
-      FetchedETD = departureDate;
-      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-      console.log(OutputVar);
-      break;
-    } else if (ETACheckDate <= ETAvalplus4 && ETACheckDate >= ETAvalminus4) {
-      InternalVoyage = voyage;
-      FetchedETA = arrivalDate;
-      FetchedETD = departureDate;
-      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-      console.log(OutputVar);
-      break;
-    } else if (ETACheckDate <= ETAvalplus5 && ETACheckDate >= ETAvalminus5) {
-      InternalVoyage = voyage;
-      FetchedETA = arrivalDate;
-      FetchedETD = departureDate;
-      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
-      console.log(OutputVar);
-      break;
-    }
+  if (portTerminal.includes("ABIDJAN ABIDJAN TERMINAL") && ETACheckDate.getTime() === ETA.getTime()) {
+    InternalVoyage = voyage;
+    FetchedETA = arrivalDate;
+    FetchedETD = departureDate;
+    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+    console.log(OutputVar);
+    break;
+  } else if (ETACheckDate <= ETAvalplus1 && ETACheckDate >= ETAvalminus1) {
+    InternalVoyage = voyage;
+    FetchedETA = arrivalDate;
+    FetchedETD = departureDate;
+    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+    console.log(OutputVar);
+    break;
+  } else if (ETACheckDate <= ETAvalplus2 && ETACheckDate >= ETAvalminus2) {
+    InternalVoyage = voyage;
+    FetchedETA = arrivalDate;
+    FetchedETD = departureDate;
+    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+    console.log(OutputVar);
+    break;
+  } else if (ETACheckDate <= ETAvalplus3 && ETACheckDate >= ETAvalminus3) {
+    InternalVoyage = voyage;
+    FetchedETA = arrivalDate;
+    FetchedETD = departureDate;
+    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+    console.log(OutputVar);
+    break;
+  } else if (ETACheckDate <= ETAvalplus4 && ETACheckDate >= ETAvalminus4) {
+    InternalVoyage = voyage;
+    FetchedETA = arrivalDate;
+    FetchedETD = departureDate;
+    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+    console.log(OutputVar);
+    break;
+  } else if (ETACheckDate <= ETAvalplus5 && ETACheckDate >= ETAvalminus5) {
+    InternalVoyage = voyage;
+    FetchedETA = arrivalDate;
+    FetchedETD = departureDate;
+    OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+    console.log(OutputVar);
+    break;
   }
 }
 ```
+
+I hope this revised code meets your requirements. Let me know if you need further modifications.
