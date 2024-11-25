@@ -1,51 +1,21 @@
-Got it! Based on the HTML structure you provided, here's how you can modify the JavaScript code to work with the new website's HTML structure. I’ll keep the logic similar to what you had for the previous example while focusing on the new class names and structure.
+Yes, you can use `document.getElementsByClassName` to target the `.ant-table-tbody` element and then access its child nodes.
 
-```javascript
-var AllTableElements = document.getElementsByClassName("ant-table-row");
+Here's an example:
 
-var InternalVoyage = "";
+```
+var tbody = document.getElementsByClassName("ant-table-tbody")[0];
+var rows = tbody.childNodes;
 
-var FetchedETA = "";
-
-var FetchedETD = "";
-
-var ImportLVR = "";
-
-var OutputVar = "";
-
-var ETA = new Date(#SETA#);
-
-var ETAvalplus1 = new Date(ETA.getTime() + 864e5 * 1);
-var ETAvalminus1 = new Date(ETA.getTime() - 864e5 * 1);
-
-var ETAvalplus2 = new Date(ETA.getTime() + 864e5 * 2);
-var ETAvalminus2 = new Date(ETA.getTime() - 864e5 * 2);
-
-var ETAvalplus3 = new Date(ETA.getTime() + 864e5 * 3);
-var ETAvalminus3 = new Date(ETA.getTime() - 864e5 * 3);
-
-var ETAvalplus4 = new Date(ETA.getTime() + 864e5 * 4);
-var ETAvalminus4 = new Date(ETA.getTime() - 864e5 * 4);
-
-var ETAvalplus5 = new Date(ETA.getTime() + 864e5 * 5);
-var ETAvalminus5 = new Date(ETA.getTime() - 864e5 * 5);
-
-for (var i = 0; i < AllTableElements.length; i++) {
-    var portLabel = AllTableElements[i].getElementsByClassName("rowLabel")[0].innerText;
-    if (portLabel.toLowerCase().includes((#$PortName#$).toLowerCase())) {
-        var ETACheckDate = new Date(AllTableElements[i + 2].getElementsByClassName("rowLabel")[0].innerText);
-
-        if (ETACheckDate.getTime() === ETA.getTime()) {
-            console.log("ETACheckDate = ETA");
-            findLVR();
-        }
-    }
+for (var i = 0; i < rows.length; i++) {
+  var row = rows[i];
+  var ETAElement = row.querySelector(".headerLabel:contains(Arrival Date) + .rowLabel");
+  
+  if (ETAElement) {
+    console.log("ETA element found");
+    var ETA = ETAElement.innerText;
+    console.log("ETA:", ETA);
+  }
 }
 ```
 
-In this code:
-1. I changed the class name to "ant-table-row" to match the new structure.
-2. I accessed the inner text of the elements using `getElementsByClassName` to find the port and vessel labels.
-3. The date extraction is done from the appropriate row, assuming the ETA is two rows down.
-
-Make sure to adjust the logic if the structure changes or if the ETA is located differently in the HTML. Let me know if you need any more tweaks or explanations!
+This code targets the first `.ant-table-tbody` element, accesses its child nodes (which are the table rows), and then loops through each row to extract the ETA element.
