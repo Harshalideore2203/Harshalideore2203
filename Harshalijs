@@ -1,6 +1,8 @@
-Yes, you can use `document.getElementsByClassName` to target the `.ant-table-tbody` element and then access its child nodes.
+It looks like the error is due to the `:contains` pseudo-class not being supported in `querySelector`.
 
-Here's an example:
+Instead, you can use the `querySelector` method to select the `.headerLabel` element and then check its text content using the `includes` method.
+
+Here's the corrected code:
 
 ```
 var tbody = document.getElementsByClassName("ant-table-tbody")[0];
@@ -8,14 +10,17 @@ var rows = tbody.childNodes;
 
 for (var i = 0; i < rows.length; i++) {
   var row = rows[i];
-  var ETAElement = row.querySelector(".headerLabel:contains(Arrival Date) + .rowLabel");
+  var headerLabel = row.querySelector(".headerLabel");
   
-  if (ETAElement) {
-    console.log("ETA element found");
-    var ETA = ETAElement.innerText;
-    console.log("ETA:", ETA);
+  if (headerLabel && headerLabel.innerText.includes("Arrival Date")) {
+    var ETAElement = row.querySelector(".rowLabel");
+    if (ETAElement) {
+      console.log("ETA element found");
+      var ETA = ETAElement.innerText;
+      console.log("ETA:", ETA);
+    }
   }
 }
 ```
 
-This code targets the first `.ant-table-tbody` element, accesses its child nodes (which are the table rows), and then loops through each row to extract the ETA element.
+Also, note that I changed `var row = rows[1];` to `var row = rows[i];` to iterate through all rows, not just the second one.
