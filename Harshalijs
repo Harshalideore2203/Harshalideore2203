@@ -1,87 +1,81 @@
-Instead of using `querySelector` and `querySelectorAll`, I can modify the code to use `getElementsByClassName`.
-
-Here's the modified code:
+Here's the complete code:
 
 ```
-var len = document.getElementsByClassName('ant-table-row').length;
-var status = 0;
-var VesselName = 'ALGECIRAS EXPRESS'; // replace with your vessel name
-var ETA = '2024-11-28'; // replace with your ETA date
+var InternalVoyage = "";
+var FetchedETA = "";
+var FetchedETD = "";
+var OutputVar = "";
+var ETA = new Date("2024-11-25"); // Assign your desired date here
 
-for (k = 0; k < len; k++) {
-  var ele = document.getElementsByClassName('ant-table-row')[k];
-  var vesselLVR = ele.getElementsByClassName('rowLabel')[1].innerText;
-  var ETAval = ele.getElementsByClassName('rowLabel')[4].innerText.replace('\n', ' ');
-  var ETAvaldate = new Date(ETAval);
-  var etadate = new Date(ETA);
+var ETAvalplus1 = new Date(ETA.getTime() + 864e5 * 1);
+var ETAvalminus1 = new Date(ETA.getTime() - 864e5 * 1);
+var ETAvalplus2 = new Date(ETA.getTime() + 864e5 * 2);
+var ETAvalminus2 = new Date(ETA.getTime() - 864e5 * 2);
+var ETAvalplus3 = new Date(ETA.getTime() + 864e5 * 3);
+var ETAvalminus3 = new Date(ETA.getTime() - 864e5 * 3);
+var ETAvalplus4 = new Date(ETA.getTime() + 864e5 * 4);
+var ETAvalminus4 = new Date(ETA.getTime() - 864e5 * 4);
+var ETAvalplus5 = new Date(ETA.getTime() + 864e5 * 5);
+var ETAvalminus5 = new Date(ETA.getTime() - 864e5 * 5);
 
-  if ((ETAvaldate.toISOString() === etadate.toISOString()) && vesselLVR.includes(VesselName)) {
-    console.log('Vessel Name: ' + vesselLVR);
-    console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[3].innerText);
-    console.log('Arrival Date: ' + ETAval);
-    console.log('Departure Date: ' + ele.getElementsByClassName('rowLabel')[5].innerText);
-    status = 1;
-    break;
+var tableBody = document.getElementsByClassName("ant-table-tbody")[0];
+
+for (var i = 0; i < tableBody.childNodes.length; i++) {
+  var tableRow = tableBody.childNodes[i];
+
+  if (tableRow.nodeName === "TR") {
+    var portTerminal = tableRow.getElementsByClassName("rowLabel")[0].textContent;
+    var vessel = tableRow.getElementsByClassName("rowLabel")[1].textContent;
+    var service = tableRow.getElementsByClassName("rowLabel")[2].textContent;
+    var voyage = tableRow.getElementsByClassName("rowLabel")[3].textContent;
+    var arrivalDate = tableRow.getElementsByClassName("rowLabel")[4].textContent;
+    var departureDate = tableRow.getElementsByClassName("rowLabel")[5].textContent;
+
+    var ETACheckDate = new Date(arrivalDate);
+
+    if (portTerminal.includes("ABC") && ETACheckDate.getTime() === ETA.getTime()) {
+      InternalVoyage = voyage;
+      FetchedETA = arrivalDate;
+      FetchedETD = departureDate;
+      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+      console.log(OutputVar);
+      break;
+    } else if (ETACheckDate <= ETAvalplus1 && ETACheckDate >= ETAvalminus1) {
+      InternalVoyage = voyage;
+      FetchedETA = arrivalDate;
+      FetchedETD = departureDate;
+      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+      console.log(OutputVar);
+      break;
+    } else if (ETACheckDate <= ETAvalplus2 && ETACheckDate >= ETAvalminus2) {
+      InternalVoyage = voyage;
+      FetchedETA = arrivalDate;
+      FetchedETD = departureDate;
+      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+      console.log(OutputVar);
+      break;
+    } else if (ETACheckDate <= ETAvalplus3 && ETACheckDate >= ETAvalminus3) {
+      InternalVoyage = voyage;
+      FetchedETA = arrivalDate;
+      FetchedETD = departureDate;
+      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+      console.log(OutputVar);
+      break;
+    } else if (ETACheckDate <= ETAvalplus4 && ETACheckDate >= ETAvalminus4) {
+      InternalVoyage = voyage;
+      FetchedETA = arrivalDate;
+      FetchedETD = departureDate;
+      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+      console.log(OutputVar);
+      break;
+    } else if (ETACheckDate <= ETAvalplus5 && ETACheckDate >= ETAvalminus5) {
+      InternalVoyage = voyage;
+      FetchedETA = arrivalDate;
+      FetchedETD = departureDate;
+      OutputVar = InternalVoyage + "; " + FetchedETA + ":" + FetchedETD;
+      console.log(OutputVar);
+      break;
+    }
   }
 }
-
-if (status == 0) {
-  for (var i = 0; i < len; i++) {
-    var ele = document.getElementsByClassName('ant-table-row')[i];
-    var ETAval = ele.getElementsByClassName('rowLabel')[4].innerText.replace('\n', ' ');
-    var ETAvaldate = new Date(ETAval);
-    var etadate = new Date(ETA);
-
-    var ETAvalplus1 = new Date(etadate / 1 + 864e5 * 1);
-    var ETAvalminus1 = new Date(etadate / 1 - 864e5 * 1);
-    var ETAvalplus2 = new Date(etadate / 1 + 864e5 * 2);
-    var ETAvalminus2 = new Date(etadate / 1 - 864e5 * 2);
-    var ETAvalplus3 = new Date(etadate / 1 + 864e5 * 3);
-    var ETAvalminus3 = new Date(etadate / 1 - 864e5 * 3);
-    var ETAvalplus4 = new Date(etadate / 1 + 864e5 * 4);
-    var ETAvalminus4 = new Date(etadate / 1 - 864e5 * 4);
-    var ETAvalplus5 = new Date(etadate / 1 + 864e5 * 5);
-    var ETAvalminus5 = new Date(etadate / 1 - 864e5 * 5);
-
-    var vesselLVR = ele.getElementsByClassName('rowLabel')[1].innerText;
-
-    if ((ETAvaldate <= ETAvalplus1 && ETAvaldate >= ETAvalminus1) && vesselLVR.includes(VesselName)) {
-      console.log('Vessel Name: ' + vesselLVR);
-      console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[3].innerText);
-      console.log('Arrival Date: ' + ETAval);
-      console.log('Departure Date: ' + ele.getElementsByClassName('rowLabel')[5].innerText);
-      break;
-    } else if ((ETAvaldate <= ETAvalplus2 && ETAvaldate >= ETAvalminus2) && vesselLVR.includes(VesselName)) {
-      console.log('Vessel Name: ' + vesselLVR);
-      console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[3].innerText);
-      console.log('Arrival Date: ' + ETAval);
-      console.log('Departure Date: ' + ele.getElementsByClassName('rowLabel')[5].innerText);
-      break;
-
-
-    } else if ((ETAvaldate <= ETAvalplus3 && ETAvaldate >= ETAvalminus3) && vesselLVR.includes(VesselName)) {
-      console.log('Vessel Name: ' + vesselLVR);
-      console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[3].innerText);
-      console.log('Arrival Date: ' + ETAval);
-      console.log('Departure Date: ' + ele.getElementsByClassName('rowLabel')[5].innerText);
-      break;
-    } else if ((ETAvaldate <= ETAvalplus4 && ETAvaldate >= ETAvalminus4) && vesselLVR.includes(VesselName)) {
-      console.log('Vessel Name: ' + vesselLVR);
-      console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[3].innerText);
-      console.log('Arrival Date: ' + ETAval);
-      console.log('Departure Date: ' + ele.getElementsByClassName
-Here is the rest of the code:
-
-} else if ((ETAvaldate <= ETAvalplus5 && ETAvaldate >= ETAvalminus5) && vesselLVR.includes(VesselName)) {
-console.log('Vessel Name: ' + vesselLVR);
-console.log('Voyage: ' + ele.getElementsByClassName('rowLabel')[2].innerText);
-console.log('Arrival Date: ' + ETAval);
-console.log('Departure Date: ' + ele.getElementsByClassName('rowLabel')[4].innerText);
-break;
-}
-}
-}
-
-if (status == 0) {
-console.log("No matching vessel found");
-}
+```
