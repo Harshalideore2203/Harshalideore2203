@@ -1,8 +1,6 @@
-The error "Cannot read properties of null reading contentDocument" usually occurs when the iframe hasn't finished loading its content yet.
+It seems like the iframe element is still not available when we're trying to add the event listener.
 
-To fix this, you can try adding an event listener to the iframe's `load` event. This will ensure that the code runs only after the iframe has finished loading its content.
-
-Here's an updated version of your code:
+To fix this, we can use a different approach. Instead of adding an event listener to the iframe's load event, we can use a timeout to wait for the iframe to load. Here's an updated version of your code:
 
 ```
 // Initialize variables
@@ -26,47 +24,51 @@ let ETAvalminus3 = new Date(ETADate.getTime() - 259200000); // -3 days
 let ETAvalminus4 = new Date(ETADate.getTime() - 345600000); // -4 days
 let ETAvalminus5 = new Date(ETADate.getTime() - 432000000); // -5 days
 
-// Access iframe content document
-const iframe = document.querySelector('iframe');
+// Function to handle iframe content
+function iframeContent() {
+    const iframe = document.querySelector('iframe');
+    if (iframe) {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (iframeDoc) {
+            // Extract table rows from iframe content document
+            const tableRows = iframeDoc.getElementsByTagName("tbody")[0].childNodes;
+            console.log("tableRows.length : " + tableRows.length)
 
-// Add event listener to iframe's load event
-iframe.addEventListener('load', function() {
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            // Loop through table rows
+            for (let i = 0; i < tableRows.length; i++) {
+                const row = tableRows[i];
+                const vesselElement = row.getElementsByTagName("td")[1];
+                console.log("Vessel " + i + " Name : " + vesselElement.textContent.trim());
 
-    // Extract table rows from iframe content document
-    const tableRows = iframeDoc.getElementsByTagName("tbody")[0].childNodes;
-    console.log("tableRows.length : " + tableRows.length)
+                if (vesselElement.textContent.toLowerCase().trim() === vesselName.toLowerCase()) {
+                    FetchedETA = row.getElementsByTagName("td")[5].textContent.trim();
+                    console.log("FetchedETA : " + FetchedETA);
+                    console.log("eta : " + eta);
 
-    // Loop through table rows
-    for (let i = 0; i < tableRows.length; i++) {
-        const row = tableRows[i];
-        const vesselElement = row.getElementsByTagName("td")[1];
-        console.log("Vessel " + i + " Name : " + vesselElement.textContent.trim());
+                    // Check if ETA date matches the calculated date range
+                    if (FetchedETA === eta || FetchedETA === ETAvalplus1.toISOString().split('T')[0] || FetchedETA === ETAvalplus2.toISOString().split('T')[0] || FetchedETA === ETAvalplus3.toISOString().split('T')[0] || FetchedETA === ETAvalplus4.toISOString().split('T')[0] || FetchedETA === ETAvalplus5.toISOString().split('T')[0] || FetchedETA === ETAvalminus1.toISOString().split('T')[0] || FetchedETA === ETAvalminus2.toISOString().split('T')[0] || FetchedETA === ETAvalminus3.toISOString().split('T')[0] || FetchedETA === ETAvalminus4.toISOString().split('T')[0] || FetchedETA === ETAvalminus5.toISOString().split('T')[0]) {
 
-        if (vesselElement.textContent.toLowerCase().trim() === vesselName.toLowerCase()) {
-            FetchedETA = row.getElementsByTagName("td")[5].textContent.trim();
-            console.log("FetchedETA : " + FetchedETA);
-            console.log("eta : " + eta);
+                        // Extract ETD date
+                        FetchedETD = row.getElementsByTagName("td")[6].textContent.trim();
 
-            // Check if ETA date matches the calculated date range
-            if (FetchedETA === eta || FetchedETA === ETAvalplus1.toISOString().split('T')[0] || FetchedETA === ETAvalplus2.toISOString().split('T')[0] || FetchedETA === ETAvalplus3.toISOString().split('T')[0] || FetchedETA === ETAvalplus4.toISOString().split('T')[0] || FetchedETA === ETAvalplus5.toISOString().split('T')[0] || FetchedETA === ETAvalminus1.toISOString().split('T')[0] || FetchedETA === ETAvalminus2.toISOString().split('T')[0] || FetchedETA === ETAvalminus3.toISOString().split('T')[0] || FetchedETA === ETAvalminus4.toISOString().split('T')[0] || FetchedETA === ETAvalminus5.toISOString().split('T')[0]) {
+                        // Extract LVR (Voyage)
+                        ImportLVR = row.getElementsByTagName("td")[3].textContent.trim();
 
-                // Extract ETD date
-                FetchedETD = row.getElementsByTagName("td")[6].textContent.trim();
-
-                // Extract LVR (Voyage)
-                ImportLVR = row.getElementsByTagName("td")[3].textContent.trim();
-
-                // Construct output string
-                OutputVar = `Vessel: ${vesselName}, ETA: ${FetchedETA}, ETD: ${FetchedETD}, LVR: ${ImportLVR}`;
-            } else {
-                console.log("No matching Vessel Found with +- 5 days of ETA");
+                        // Construct output string
+                        OutputVar = `Vessel: ${vesselName}, ETA: ${FetchedETA}, ETD: ${FetchedETD}, LVR: ${ImportLVR}`;
+                    } else {
+                        console.log("No matching Vessel Found with +- 5 days of ETA");
+                    }
+                    break;
+                }
             }
-            break;
+            console.log("OutputVar : " + OutputVar);
         }
     }
-    console.log("OutputVar : " + OutputVar);
-});
+}
+
+// Wait for iframe to load
+setTimeout(iframeContent, 1000);
 ```
 
-By adding the event listener, we ensure that the code runs only after the iframe has finished loading its content.
+This updated code uses a timeout to wait for the iframe to load. After 1 second, it calls the `iframeContent` function to process the iframe's content.
