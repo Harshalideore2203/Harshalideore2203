@@ -1,40 +1,18 @@
-Here's how you can handle the "E-Tools" control using JavaScript, based on the provided HTML structure:
-1. Identify the Element:
- * Use the aria-label attribute: The "E-Tools" button has an aria-label attribute with the value "E-Tools." You can use this to target the button.
-2. Trigger the Hover Event:
- * JavaScript: Use the mouseover event to simulate hovering over the button.
 const eToolsButton = document.querySelector('button[aria-label="E-Tools"]');
 
-eToolsButton.addEventListener('mouseover', function() {
-  // Code to handle the expanded menu
+eToolsButton.addEventListener('mouseover', () => {
+  // Wait for the menu to expand
+  const waitForMenu = new Promise(resolve => {
+    const intervalId = setInterval(() => {
+      const vesselScheduleLink = document.querySelector('.secondary-navigation a[href="#vessel-schedule"]');
+      if (vesselScheduleLink) {
+        clearInterval(intervalId);
+        resolve(vesselScheduleLink);
+      }
+    }, 100); // Check every 100ms
+  });
+
+  waitForMenu.then(link => {
+    link.click();
+  });
 });
-
-3. Handle the Expanded Menu:
- * Wait for expansion: Once the menu expands, you can target the "Vessel Schedule" link within the expanded menu.
- * Click the link: Use JavaScript to simulate a click on the "Vessel Schedule" link.
-const vesselScheduleLink = document.querySelector('.secondary-navigation a[href="#vessel-schedule"]'); // Adjust selector as needed
-vesselScheduleLink.click();
-
-Complete Example:
-const eToolsButton = document.querySelector('button[aria-label="E-Tools"]');
-
-eToolsButton.addEventListener('mouseover', function() {
-  // Wait for the menu to expand (adjust timeout as needed)
-  setTimeout(() => {
-    const vesselScheduleLink = document.querySelector('.secondary-navigation a[href="#vessel-schedule"]');
-    if (vesselScheduleLink) {
-      vesselScheduleLink.click();
-    }
-  }, 500);
-});
-
-Additional Considerations:
- * Element Selectors: Use appropriate selectors (e.g., aria-label, class, tag name) to target the elements reliably.
- * Menu Structure: Adjust the selectors and timeout based on the specific structure of the expanded menu.
- * Error Handling: Consider adding error handling mechanisms to handle cases where elements might not be found or actions might fail.
- * Testing: Thoroughly test the code in different scenarios to ensure it works as expected.
-Remember:
- * Replace placeholders like #e-tools and .expanded-menu a[href="#vessel-schedule"] with the actual selectors for your elements.
- * Adjust the timeout value in setTimeout based on the expansion time of the menu.
- * Consider using a more robust waiting mechanism if the menu expansion is asynchronous or has dynamic content.
-By following these steps and adapting the code to your specific web application, you should be able to handle the "E-Tools" control and click on the "Vessel Schedule" link.
