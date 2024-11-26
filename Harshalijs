@@ -1,4 +1,6 @@
-Here's the modified code that takes the vessel name as a variable and loops through the table rows to find the ETA, ETD, and LVR (Voyage) for that vessel:
+It seems that the code is only returning the NodeList of elements, but not extracting the ETA, ETD, and LVR values.
+
+To fix this, you need to access the text content of the elements in the NodeList. Here's an updated code snippet that should work:
 
 ```
 // Initialize variables
@@ -33,8 +35,8 @@ for (let i = 0; i < tableRows.length; i++) {
   
   if (vesselElement && vesselElement.textContent.trim() === vesselName) {
     // Extract ETA date
-    const etaElement = row.querySelectorAll('.rowLabel')[1];
-    FetchedETA = etaElement.textContent.trim();
+    const etaElements = row.querySelectorAll('.rowLabel');
+    FetchedETA = etaElements[1].textContent.trim();
     
     // Check if ETA date matches the calculated date range
     if (FetchedETA === eta ||
@@ -50,12 +52,10 @@ for (let i = 0; i < tableRows.length; i++) {
       FetchedETA === ETAvalminus5.toISOString().split('T')[0]) {
       
       // Extract ETD date
-      const etdElement = row.querySelectorAll('.rowLabel')[2];
-      FetchedETD = etdElement.textContent.trim();
+      FetchedETD = etaElements[2].textContent.trim();
       
       // Extract LVR (Voyage)
-      const lvrElement = row.querySelectorAll('.rowLabel')[3];
-      ImportLVR = lvrElement.textContent.trim();
+      ImportLVR = etaElements[3].textContent.trim();
       
       // Construct output string
       OutputVar = `Vessel: ${vesselName}, ETA: ${FetchedETA}, ETD: ${FetchedETD}, LVR: ${ImportLVR}`;
@@ -66,4 +66,4 @@ for (let i = 0; i < tableRows.length; i++) {
 }
 ```
 
-This code loops through the table rows, checks if the vessel name matches the target vessel name, and then extracts the ETA, ETD, and LVR (Voyage) for that vessel. It also checks if the ETA date matches the calculated date range.
+This updated code should now correctly extract the ETA, ETD, and LVR values from the table row.
