@@ -1,4 +1,4 @@
-I'll modify your code to use the `postMessage` API to communicate between the parent page and the iframe. Here's the updated code:
+Here is the full code:
 
 ```
 // Initialize variables
@@ -71,15 +71,11 @@ window.addEventListener('message', iframeContent);
 // Send message to iframe to load content
 const iframe = document.querySelector('iframe');
 iframe.contentWindow.postMessage('load-content', '*');
-```
 
-And in your iframe's content:
-
+// Wait for iframe to load
+setTimeout(function() {
+    if (iframe.contentDocument) {
+        iframeContent({ data: 'iframe-loaded' });
+    }
+}, 1000);
 ```
-// Send message to parent window when iframe content is loaded
-window.addEventListener('load', function() {
-    window.parent.postMessage('iframe-loaded', '*');
-});
-```
-
-This code uses the `postMessage` API to communicate between the parent page and the iframe. When the iframe
