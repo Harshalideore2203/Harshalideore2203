@@ -1,5 +1,4 @@
-Here is the full code:
-
+Here is your modified code that handles the iframe:
 ```
 // Initialize variables
 let vesselName = "ALGECIRAS EXPRESS"; // Replace with your vessel name
@@ -22,8 +21,42 @@ let ETAvalminus3 = new Date(ETADate.getTime() - 259200000); // -3 days
 let ETAvalminus4 = new Date(ETADate.getTime() - 345600000); // -4 days
 let ETAvalminus5 = new Date(ETADate.getTime() - 432000000); // -5 days
 
-// Function to handle iframe content
-function iframeContent(event) {
-    if (event.data === 'iframe-loaded') {
-        const iframe = document.querySelector('iframe');
-        const iframeDoc = ifra
+// Get iframe document
+const iframe = document.querySelector('iframe');
+const iframeDoc = iframe.contentWindow.document;
+
+// Wait for iframe to load
+iframe.onload = function() {
+  // Extract table rows
+  const tableRows = iframeDoc.getElementsByTagName("tbody")[0].childNodes;
+  console.log("tableRows.length : "+tableRows.length)
+
+  // Loop through table rows
+  for (let i = 0; i < tableRows.length; i++) {
+    const row = tableRows[i];
+    const vesselElement = row.getElementsByTagName("td")[1];
+    console.log("Vessel "+i+" Name : "+vesselElement.textContent.trim());
+
+    if (vesselElement.textContent.toLowerCase().trim() === vesselName.toLowerCase()) {
+      FetchedETA = row.getElementsByTagName("td")[5].textContent.trim();
+      console.log("FetchedETA : "+FetchedETA);
+      console.log("eta : "+eta);
+
+      // Check if ETA date matches the calculated date range
+      if (FetchedETA === eta || FetchedETA === ETAvalplus1.toISOString().split('T')[0] || FetchedETA === ETAvalplus2.toISOString().split('T')[0] || FetchedETA === ETAvalplus3.toISOString().split('T')[0] || FetchedETA === ETAvalplus4.toISOString().split('T')[0] || FetchedETA === ETAvalplus5.toISOString().split('T')[0] || FetchedETA === ETAvalminus1.toISOString().split('T')[0] || FetchedETA === ETAvalminus2.toISOString().split('T')[0] || FetchedETA === ETAvalminus3.toISOString().split('T')[0] || FetchedETA === ETAvalminus4.toISOString().split('T')[0] || FetchedETA === ETAvalminus5.toISOString().split('T')[0]) {
+        // Extract ETD date
+        FetchedETD = row.getElementsByTagName("td")[6].textContent.trim();
+        // Extract LVR (Voyage)
+        ImportLVR = row.getElementsByTagName("td")[3].textContent.trim();
+        // Construct output string
+        OutputVar = `Vessel: ${vesselName}, ETA: ${FetchedETA}, ETD: ${FetchedETD}, LVR: ${ImportLVR}`;
+      } else {
+        console.log("No matching Vessel Found with +- 5 days of ETA");
+      }
+      break;
+    }
+  }
+  console.log("OutputVar : " + OutputVar);
+}
+```
+This modified code waits for the iframe to load before executing the rest of the code. It also uses the `iframeDoc` variable to access the iframe's document, rather than the parent page's document.
