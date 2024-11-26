@@ -1,65 +1,40 @@
-Here is the modified code that includes the changes I mentioned earlier:
-```
-// Initialize variables
-let vesselName = "ALGECIRAS EXPRESS"; // Replace with your vessel name
-let eta = "2024-11-28"; // Replace with your ETA date
-let FetchedETA = '';
-let FetchedETD = '';
-let ImportLVR = '';
-let OutputVar = '';
+Here's how you can handle the "E-Tools" control using JavaScript, based on the provided HTML structure:
+1. Identify the Element:
+ * Use the aria-label attribute: The "E-Tools" button has an aria-label attribute with the value "E-Tools." You can use this to target the button.
+2. Trigger the Hover Event:
+ * JavaScript: Use the mouseover event to simulate hovering over the button.
+const eToolsButton = document.querySelector('button[aria-label="E-Tools"]');
 
-// Calculate date range
-let ETADate = new Date(eta);
-let ETAvalplus1 = new Date(ETADate.getTime() + 86400000); // +1 day
-let ETAvalplus2 = new Date(ETADate.getTime() + 172800000); // +2 days
-let ETAvalplus3 = new Date(ETADate.getTime() + 259200000); // +3 days
-let ETAvalplus4 = new Date(ETADate.getTime() + 345600000); // +4 days
-let ETAvalplus5 = new Date(ETADate.getTime() + 432000000); // +5 days
-let ETAvalminus1 = new Date(ETADate.getTime() - 86400000); // -1 day
-let ETAvalminus2 = new Date(ETADate.getTime() - 172800000); // -2 days
-let ETAvalminus3 = new Date(ETADate.getTime() - 259200000); // -3 days
-let ETAvalminus4 = new Date(ETADate.getTime() - 345600000); // -4 days
-let ETAvalminus5 = new Date(ETADate.getTime() - 432000000); // -5 days
+eToolsButton.addEventListener('mouseover', function() {
+  // Code to handle the expanded menu
+});
 
-// Wait for iframe to load
-setTimeout(() => {
-  const iframe = document.querySelector('iframe');
-  if (iframe && iframe.contentWindow && iframe.contentWindow.document) {
-    const iframeDoc = iframe.contentWindow.document;
+3. Handle the Expanded Menu:
+ * Wait for expansion: Once the menu expands, you can target the "Vessel Schedule" link within the expanded menu.
+ * Click the link: Use JavaScript to simulate a click on the "Vessel Schedule" link.
+const vesselScheduleLink = document.querySelector('.secondary-navigation a[href="#vessel-schedule"]'); // Adjust selector as needed
+vesselScheduleLink.click();
 
-    // Extract table rows
-    const tableRows = iframeDoc.getElementsByTagName("tbody")[0].childNodes;
-    console.log("tableRows.length : "+tableRows.length)
+Complete Example:
+const eToolsButton = document.querySelector('button[aria-label="E-Tools"]');
 
-    // Loop through table rows
-    for (let i = 0; i < tableRows.length; i++) {
-      const row = tableRows[i];
-      const vesselElement = row.getElementsByTagName("td")[1];
-      console.log("Vessel "+i+" Name : "+vesselElement.textContent.trim());
-
-      if (vesselElement.textContent.toLowerCase().trim() === vesselName.toLowerCase()) {
-        FetchedETA = row.getElementsByTagName("td")[5].textContent.trim();
-        console.log("FetchedETA : "+FetchedETA);
-        console.log("eta : "+eta);
-
-        // Check if ETA date matches the calculated date range
-        if (FetchedETA === eta || FetchedETA === ETAvalplus1.toISOString().split('T')[0] || FetchedETA === ETAvalplus2.toISOString().split('T')[0] || FetchedETA === ETAvalplus3.toISOString().split('T')[0] || FetchedETA === ETAvalplus4.toISOString().split('T')[0] || FetchedETA === ETAvalplus5.toISOString().split('T')[0] || FetchedETA === ETAvalminus1.toISOString().split('T')[0] || FetchedETA === ETAvalminus2.toISOString().split('T')[0] || FetchedETA === ETAvalminus3.toISOString().split('T')[0] || FetchedETA === ETAvalminus4.toISOString().split('T')[0] || FetchedETA === ETAvalminus5.toISOString().split('T')[0]) {
-          // Extract ETD date
-          FetchedETD = row.getElementsByTagName("td")[6].textContent.trim();
-          // Extract LVR (Voyage)
-          ImportLVR = row.getElementsByTagName("td")[3].textContent.trim();
-          // Construct output string
-          OutputVar = `Vessel: ${vesselName}, ETA: ${FetchedETA}, ETD: ${FetchedETD}, LVR: ${ImportLVR}`;
-        } else {
-          console.log("No matching Vessel Found with +- 5 days of ETA");
-        }
-        break;
-      }
+eToolsButton.addEventListener('mouseover', function() {
+  // Wait for the menu to expand (adjust timeout as needed)
+  setTimeout(() => {
+    const vesselScheduleLink = document.querySelector('.secondary-navigation a[href="#vessel-schedule"]');
+    if (vesselScheduleLink) {
+      vesselScheduleLink.click();
     }
-    console.log("OutputVar : " + OutputVar);
-  } else {
-    console.log("Iframe not found or not loaded");
-  }
-}, 5000); // wait for 5 seconds
-```
-This code waits for 5 seconds before trying to access the iframe. You can adjust the timeout value as needed.
+  }, 500);
+});
+
+Additional Considerations:
+ * Element Selectors: Use appropriate selectors (e.g., aria-label, class, tag name) to target the elements reliably.
+ * Menu Structure: Adjust the selectors and timeout based on the specific structure of the expanded menu.
+ * Error Handling: Consider adding error handling mechanisms to handle cases where elements might not be found or actions might fail.
+ * Testing: Thoroughly test the code in different scenarios to ensure it works as expected.
+Remember:
+ * Replace placeholders like #e-tools and .expanded-menu a[href="#vessel-schedule"] with the actual selectors for your elements.
+ * Adjust the timeout value in setTimeout based on the expansion time of the menu.
+ * Consider using a more robust waiting mechanism if the menu expansion is asynchronous or has dynamic content.
+By following these steps and adapting the code to your specific web application, you should be able to handle the "E-Tools" control and click on the "Vessel Schedule" link.
