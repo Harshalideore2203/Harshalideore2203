@@ -1,6 +1,4 @@
-That's a classic issue with iframes and JavaScript. The problem is that the iframe's content is loaded asynchronously, which means that it may not be fully loaded when your JavaScript code tries to access it.
-
-To fix this issue, you can use a technique called "iframe loading detection". Here's an updated code snippet that includes this technique:
+Here is the modified code that includes the changes I mentioned earlier:
 ```
 // Initialize variables
 let vesselName = "ALGECIRAS EXPRESS"; // Replace with your vessel name
@@ -23,13 +21,10 @@ let ETAvalminus3 = new Date(ETADate.getTime() - 259200000); // -3 days
 let ETAvalminus4 = new Date(ETADate.getTime() - 345600000); // -4 days
 let ETAvalminus5 = new Date(ETADate.getTime() - 432000000); // -5 days
 
-// Get iframe document
-const iframe = document.querySelector('iframe');
-
-// Check if iframe is loaded
-if (iframe) {
-  // Wait for iframe to load
-  const iframeLoaded = () => {
+// Wait for iframe to load
+setTimeout(() => {
+  const iframe = document.querySelector('iframe');
+  if (iframe && iframe.contentWindow && iframe.contentWindow.document) {
     const iframeDoc = iframe.contentWindow.document;
 
     // Extract table rows
@@ -62,16 +57,9 @@ if (iframe) {
       }
     }
     console.log("OutputVar : " + OutputVar);
-  };
-
-  // Check if iframe is already loaded
-  if (iframe.contentWindow.document.readyState === "complete") {
-    iframeLoaded();
   } else {
-    iframe.onload = iframeLoaded;
+    console.log("Iframe not found or not loaded");
   }
-} else {
-  console.log("Iframe not found");
-}
+}, 5000); // wait for 5 seconds
 ```
-This updated code uses a function called `iframeLoaded` to detect when the iframe is fully loaded. It checks the iframe's `readyState` property to see
+This code waits for 5 seconds before trying to access the iframe. You can adjust the timeout value as needed.
