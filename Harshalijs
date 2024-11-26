@@ -1,26 +1,61 @@
-It looks like the error is due to the `:contains` pseudo-class not being supported in `querySelector`.
-
-Instead, you can use the `querySelector` method to select the `.headerLabel` element and then check its text content using the `includes` method.
-
-Here's the corrected code:
+You want me to modify the original code to use `getElementsByClassName` instead of `querySelectorAll`. Here is the modified code:
 
 ```
-var tbody = document.getElementsByClassName("ant-table-tbody")[0];
-var rows = tbody.childNodes;
+// Extract Vessel names
+const vesselNames = document.getElementsByClassName('generalLinkLabel');
 
-for (var i = 0; i < rows.length; i++) {
-  var row = rows[i];
-  var headerLabel = row.querySelector(".headerLabel");
+// Extract Arrival and Departure dates
+const dates = document.getElementsByClassName('rowLabel');
+
+// Initialize variables
+let InternalVoyage = '';
+let FetchedETA = '';
+let FetchedETD = '';
+let ImportLVR = '';
+let OutputVar = '';
+let ETA = null;
+
+// Loop through vessel names
+for (let i = 0; i < vesselNames.length; i++) {
+  // Extract Arrival date
+  FetchedETA = dates[i * 7 + 5].textContent.trim();
   
-  if (headerLabel && headerLabel.innerText.includes("Arrival Date")) {
-    var ETAElement = row.querySelector(".rowLabel");
-    if (ETAElement) {
-      console.log("ETA element found");
-      var ETA = ETAElement.innerText;
-      console.log("ETA:", ETA);
-    }
-  }
+  // Extract Departure date
+  FetchedETD = dates[i * 7 + 6].textContent.trim();
+  
+  // Extract Internal Voyage number
+  InternalVoyage = vesselNames[i].textContent.trim();
+  
+  // Calculate date range
+  let ETADate = new Date(FetchedETA);
+  let ETAvalplus1 = new Date(ETADate.getTime() + 86400000); // +1 day
+  let ETAvalplus2 = new Date(ETADate.getTime() + 172800000); // +2 days
+  let ETAvalplus3 = new Date(ETADate.getTime() + 259200000); // +3 days
+  let ETAvalplus4 = new Date(ETADate.getTime() + 345600000); // +4 days
+  let ETAvalplus5 = new Date(ETADate.getTime() + 432000000); // +5 days
+  
+  let ETAvalminus1 = new Date(ETADate.getTime() - 86400000); // -1 day
+  let ETAvalminus2 = new Date(ETADate.getTime() - 172800000); // -2 days
+  let ETAvalminus3 = new Date(ETADate.getTime() - 259200000); // -3 days
+  let ETAvalminus4 = new Date(ETADate.getTime() - 345600000); // -4 days
+  let ETAvalminus5 = new Date(ETADate.getTime() - 432000000); // -5 days
+  
+  // Find LVR
+  ImportLVR = findLVR(i);
+  
+  // Construct output string
+  OutputVar = `Vessel: ${InternalVoyage}, ETA: ${FetchedETA}, ETD: ${FetchedETD}, LVR: ${ImportLVR}`;
+  
+  console.log(OutputVar);
+}
+
+// findLVR Function
+function findLVR(index) {
+  let LVR = '';
+  
+  // Assuming LVR is 2 elements before the vessel name
+  LVR = vesselNames[index].parentElement.parentElement.previousElementSibling.previousElementSibling.textContent.trim();
+  
+  return LVR;
 }
 ```
-
-Also, note that I changed `var row = rows[1];` to `var row = rows[i];` to iterate through all rows, not just the second one.
