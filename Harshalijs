@@ -1,89 +1,39 @@
-Here's your modified code:
+To select the vessel name from the dropdown list, you can use the following JavaScript code:
 
+*Step 1: Get the input element*
 ```
-// Initialize variables
-let vesselName = "ANITA A"; // Replace with your vessel name
-let eta = "2024-11-25"; // Replace with your ETA date
-let FetchedETA = '';
-let FetchedETD = '';
-let ImportLVR = '';
-let OutputVar = '';
-
-// Calculate date range
-let ETADate = new Date(eta);
-let ETAvalplus1 = new Date(ETADate.getTime() + 86400000); // +1 day
-let ETAvalplus2 = new Date(ETADate.getTime() + 172800000); // +2 days
-let ETAvalplus3 = new Date(ETADate.getTime() + 259200000); // +3 days
-let ETAvalplus4 = new Date(ETADate.getTime() + 345600000); // +4 days
-let ETAvalplus5 = new Date(ETADate.getTime() + 432000000); // +5 days
-let ETAvalminus1 = new Date(ETADate.getTime() - 86400000); // -1 day
-let ETAvalminus2 = new Date(ETADate.getTime() - 172800000); // -2 days
-let ETAvalminus3 = new Date(ETADate.getTime() - 259200000); // -3 days
-let ETAvalminus4 = new Date(ETADate.getTime() - 345600000); // -4 days
-let ETAvalminus5 = new Date(ETADate.getTime() - 432000000); // -5 days
-
-// Extract table rows
-var tableRows = document.getElementsByClassName("ant-table-row");
-
-console.log("tableRows.length : " + tableRows.length)
-
-// Loop through table rows
-for (let i = 1; i < tableRows.length; i++) {
-    const row = tableRows[i];
-    const cells = row.getElementsByTagName("td");
-
-    for (let j = 0; j < cells.length; j++) {
-        if (cells[j].textContent.trim() === vesselName) {
-            FetchedETA = cells[j + 1].textContent.trim().match(/^\d{1,2}\/\d{1,2}\/\d{2}/)[0];
-
-            console.log("Vessel: " + vesselName + ", FetchedETA: " + FetchedETA);
-            console.log("eta : " + eta);
-
-            // Original date string in MM/DD/YY format
-            // Split the original date into components (month, day, year)
-            let parts = FetchedETA.split('/');
-            // Expand the year to 4 digits
-            let year = "20" + parts[2]; // Assuming the year is in the 2000s
-            let month = parts[0]; // Month part
-            let day = parts[1]; // Day part
-            // Format the date in YYYY-MM-DD format
-            let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            console.log("FormattedEta ::" + formattedDate);
-            // Output: 2024-11-20
-            FetchedETA = formattedDate;
-            console.log(FetchedETA);
-
-            // Check if ETA date matches the calculated date range
-            if (FetchedETA === eta || FetchedETA === ETAvalplus1.toISOString().split('T')[0] || FetchedETA === ETAvalplus2.toISOString().split('T')[0] || FetchedETA === ETAvalplus3.toISOString().split('T')[0] || FetchedETA === ETAvalplus4.toISOString().split('T')[0] || FetchedETA === ETAvalplus5.toISOString().split('T')[0] || FetchedETA === ETAvalminus1.toISOString().split('T')[0] || FetchedETA === ETAvalminus2.toISOString().split('T')[0] || FetchedETA === ETAvalminus3.toISOString().split('T')[0] || FetchedETA === ETAvalminus4.toISOString().split('T')[0] || FetchedETA === ETAvalminus5.toISOString().split('T')[0]) {
-                // Extract ETD date
-                FetchedETD = cells[j + 2].textContent.trim().match(/^\d{1,2}\/\d{1,2}\/\d{2}/)[0];
-
-                // Split the original date into components (month, day, year)
-                let parts = FetchedETD.split('/');
-                // Expand the year to 4 digits
-                let year = "20" + parts[2]; // Assuming the year is in the 2000s
-                let month = parts[0]; // Month part
-                let day = parts[1]; // Day part
-                // Format the date in YYYY-MM-DD format
-                letHere's the remaining code:
-
-```            let formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-            console.log("FormattedEtd ::" + formattedDate);
-            // Output: 2024-11-20
-            FetchedETD = formattedDate;
-            console.log(FetchedETD);
-
-            // Extract LVR (Voyage)
-            ImportLVR = cells[j + 3].textContent.trim();
-
-            // Construct output string
-            OutputVar = `Vessel: ${vesselName}, ETA: ${FetchedETA}, ETD: ${FetchedETD}, LVR: ${ImportLVR}`;
-            console.log(OutputVar);
-            break;
-        }
-    }
-}
+let inputElement = document.getElementById("_menuPanel_tabControl_ctle3a61a62_6bfb_4287_87cf_503b0b5b0017_hostedControl_searchByVesselAutoCompleter_textBox");
 ```
-}
-console.log("OutputVar : " + OutputVar);
+
+*Step 2: Set the value of the input element to the vessel name*
 ```
+let vesselName = "Your Vessel Name"; // replace with your variable
+inputElement.value = vesselName;
+```
+
+*Step 3: Simulate a keyup event to trigger the autocomplete functionality*
+```
+let event = new Event('keyup');
+event.keyCode = 13; // enter key
+inputElement.dispatchEvent(event);
+```
+
+*Step 4: Wait for the autocomplete options to load*
+```
+setTimeout(function() {
+  // Get the autocomplete options
+  let options = document.querySelectorAll(".autocomplete-option");
+  
+  // Find the option that matches the vessel name
+  let matchingOption = Array.prototype.find.call(options, function(option) {
+    return option.textContent === vesselName;
+  });
+  
+  // If a matching option is found, click on it
+  if (matchingOption) {
+    matchingOption.click();
+  }
+}, 1000); // wait for 1 second
+```
+
+Note that this code assumes that the autocomplete options are loaded within 1 second. You may need to adjust the timeout value based on your specific use case. Additionally, this code uses the `.autocomplete-option` class to select the autocomplete options. You may need to adjust this selector based on the actual HTML structure of your autocomplete options.
